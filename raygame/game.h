@@ -5,6 +5,10 @@
 #include "physics.h"
 class game
 {
+	int screenWidth;
+	int screenHeight;
+	bool screenWrap;
+
 	float accumulatedFixedTime;
 
 	std::vector<physObject> physObjects;

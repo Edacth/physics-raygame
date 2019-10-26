@@ -10,6 +10,8 @@ physObject::physObject()
 
 	mass = 1.0f;
 	drag = 1.0f;
+
+	color = RED;
 }
 
 void physObject::tickPhys(float delta)
@@ -27,11 +29,28 @@ void physObject::tickPhys(float delta)
 
 void physObject::draw() const
 {
-	DrawCircle(pos.x, pos.y, 15.0f, RED);
-	DrawCircle(pos.x, pos.y, 13.0f, RAYWHITE);
+	float drawRadius = 15.0f;
+	collider.match([this](circle s) {DrawCircle(pos.x, pos.y, s.radius, color); },
+				   [this](aabb s)	{DrawRectangle(pos.x - s.halfExtents.x, pos.y - s.halfExtents.y, s.halfExtents.x * 2, s.halfExtents.y * 2, color); } );
 }
 
 void physObject::addForce(glm::vec2 force)
 {
 	forces += force * (1.0f / mass);
+}
+
+void physObject::addImpulse(glm::vec2 impulse)
+{
+	vel += impulse * (1.0f / mass);
+}
+
+void physObject::addAccel(glm::vec2 accel)
+{
+	// TODO: implement this
+	assert(false);
+}
+
+void physObject::addVelocityChange(glm::vec2 delta)
+{
+	vel += delta;
 }
